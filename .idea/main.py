@@ -1,5 +1,6 @@
 import pandas as pd
 from readWriteExcel import *
+from Course import *
 
 #variables
 courseList = []
@@ -17,6 +18,16 @@ courseList = getCourseList(courses)
 print(courseList)
 courseCredit = getCourseCredit(courses)
 print(courseCredit)
+
+#creating course class object array
+CourseClass = []
+for i in range(len(courseList)):
+
+    #print(courseCredit[courseList[i]])
+    #print(type(courseCredit[courseList[i]]))
+    CourseClass.append(Course(courseList[i],courseCredit[courseList[i]]))
+    print(CourseClass[i].name+" "+str(CourseClass[i].credit))
+
 
 #open teachers
 teachers = pd.read_excel("Routine.xlsx",sheet_name='Teachers')

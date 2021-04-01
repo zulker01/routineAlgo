@@ -6,4 +6,5 @@ class Course:
     def getName(self):
         return self.name
 
-    
+    def getCredit(self):
+        return self.credit
