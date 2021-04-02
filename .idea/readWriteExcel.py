@@ -40,3 +40,7 @@ def getCourseChoiceFor(file,i):
         #print(file[j][i])
         courseList.append(file[j][i])
     return courseList
+
+def getTeacherName(file,i):
+    return file['Teacher Initial'][i]
+    #      file['column name'][index]
