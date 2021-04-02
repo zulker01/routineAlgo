@@ -44,3 +44,12 @@ def getCourseChoiceFor(file,i):
 def getTeacherName(file,i):
     return file['Teacher Initial'][i]
     #      file['column name'][index]
+
+def getTeacherTime(teachersFreeTime,i):
+    freetime= []
+    freetime.append(teachersFreeTime['Sunday'][i])
+    freetime.append(teachersFreeTime['Monday'][i])
+    freetime.append(teachersFreeTime['Tuesday'][i])
+    freetime.append(teachersFreeTime['Wednesday'][i])
+    freetime.append(teachersFreeTime['Thursday'][i])
+    return freetime
