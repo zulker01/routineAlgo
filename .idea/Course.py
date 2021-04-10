@@ -1,6 +1,7 @@
 class Course:
     classes = 0
     duration = 0
+    flag = 0
     def __init__(self,name,credit):
 
         self.name = name
@@ -13,7 +14,7 @@ class Course:
             self.duration = 1.5
         elif credit == 2:
             self.classes = 2
-            self.duration = 1
+            self.duration = 1.5
     def getName(self):
         return self.name
 
@@ -23,3 +24,5 @@ class Course:
         return self.classes
     def getDuration(self):
         return self.duration
+    def getCourseFlag(self):
+        return self.flag
