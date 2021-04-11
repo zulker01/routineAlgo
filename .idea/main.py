@@ -2,6 +2,7 @@ import pandas as pd
 from readWriteExcel import *
 from Course import *
 from Teacher import *
+from batch import *
 
 #variables
 courseList = []
@@ -71,36 +72,65 @@ def function(teacherI,courseI):
         print( cours , teacher TIme)
 """
 """
-def function(teacherI,courseI):
-    if teacherI>=total_teachers:
+   if teacherI>=total_teachers:
+       return 1
+   time = TeacherClass[teacherI].teacherTime[0]
+   
+   #print(courseNo)
+   #print(CourseClass[courseNo].name)
+   #print(TeacherClass[teacherI].courseChoice[courseI])
+   
+   time1 = time[0:time.find(";")]
+   time2 = time[time.find(";")+1:len(time)]
+   time1start = time1[0:time1.find("-")]
+   time1end = time1[time1.find("-")+1:len(time1)]
+   newtime1start = float(time1start)+float(CourseClass[courseNo].duration)
+   #print(newtime1start)
+   #print(time1)
+   #print(time2)
+   #print(CourseClass[courseI].duration)
+   """
+batch24 = batch("24")
+def function(teacherI,courseI,coursesFilled):
+
+    time1 = 0
+    time2 = 0
+    time1i = 0
+    time2i = 0
+    if coursesFilled==total_courses:
         return 1
-    time = TeacherClass[teacherI].teacherTime[0]
     course = TeacherClass[teacherI].courseChoice[courseI]
     courseNo = -1
     for i in range(total_courses):
         if CourseClass[i].name == course:
             courseNo = i
             break
-    #print(courseNo)
-    #print(CourseClass[courseNo].name)
-    #print(TeacherClass[teacherI].courseChoice[courseI])
     if CourseClass[courseNo].flag == 0:
         CourseClass[courseNo].flag = 1
     else:
         print("impossible for "+course)
         return 0
-    time1 = time[0:time.find(";")]
-    time2 = time[time.find(";")+1:len(time)]
-    time1start = time1[0:time1.find("-")]
-    time1end = time1[time1.find("-")+1:len(time1)]
-    newtime1start = float(time1start)+float(CourseClass[courseNo].duration)
-    #print(newtime1start)
-    #print(time1)
-    #print(time2)
-    #print(CourseClass[courseI].duration)
-    function(teacherI+1,courseI)
-    print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+" "+str(time1start)+" - "+str(newtime1start))
+    for i in range(5):
+        print(len(TeacherClass[teacherI].timeHash[i]))
+        if len(TeacherClass[teacherI].timeHash[i])>1:
+            time1 = TeacherClass[teacherI].timeHash[i][0]
+            time1i = i
+            if len(TeacherClass[teacherI].timeHash[i+2])>1:
+                time2 = TeacherClass[teacherI].timeHash[i][0]
+                time1i = i+2
 
-function(0,0)
-"""
+                if time1 in batch24.availableSlots[i]:
+                    batch24.availableSlots[i].remove(time1)
+                    if time2 in batch24.availableSlots[i+2]:
+                        batch24.availableSlots[i+2].remove(time2)
+
+                        break
+
+    function(teacherI+1,courseI,coursesFilled+1)
+    print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+" "
+          +str(time1i)+" - "+str(time2i)+" "
+          +str(time1)+" - "+str(time2)+" "+str(teacherI)+" "+str(courseI)+" "+str(coursesFilled))
+
+function(0,0,0)
+
 print(str(TeacherClass[1].teacherTime))

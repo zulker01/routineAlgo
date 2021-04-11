@@ -1,4 +1,4 @@
-class Teacher:
+class batch:
     flag = 0
     """
     slots   meaning
@@ -13,7 +13,9 @@ class Teacher:
      
      
     """
-    availableSlots= [1,2,3,4,5,6,7]
+    availableSlots=[]
+    for i in range(5):
+        availableSlots.append([1,2,3,4,5,6,7])
     def __init__(self,name):
 
         self.name = name
