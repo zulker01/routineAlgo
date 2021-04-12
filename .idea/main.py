@@ -98,10 +98,17 @@ def function(teacherI,courseI,coursesFilled,routine):
     time1i = 0
     time2i = 0
     doneFlag=0
+    print("in stack teacherI "+str(teacherI)+" courseI "+str(courseI)+" coursesFilled "+str(coursesFilled)+" routine ")
     if coursesFilled==total_courses:
+        print("Successful routine")
         print(routine)
         return 1
+    if teacherI>=total_teachers:
+        return 0
+    if len(TeacherClass[teacherI].courseChoice)<=courseI:
+        return 0
     course = TeacherClass[teacherI].courseChoice[courseI]
+    print(course)
     courseNo = -1
     for i in range(total_courses):
         if CourseClass[i].name == course:
@@ -120,7 +127,7 @@ def function(teacherI,courseI,coursesFilled,routine):
             time1 = TeacherClass[teacherI].timeHash[i][0]
             TeacherClass[teacherI].timeHash[i].remove(time1)
             time1i = i
-            print(time1i)
+            #print(time1i)
             #print(str(TeacherClass[teacherI].name+str(time1i)+" -time 1  "+str(time1)))
             if time1 in batch24.availableSlots[i]:
                 batch24.availableSlots[i].remove(time1)
@@ -148,16 +155,30 @@ def function(teacherI,courseI,coursesFilled,routine):
 
     routine = routine+str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+"\n"+dayHashDictionary[str(time1i)]
     routine = routine+" "+timeHashDictionary[str(time1)]+"\n"+dayHashDictionary[str(time2i)]+" "+timeHashDictionary[str(time2)]+"\n\n"
-    done = function(teacherI+1,courseI,coursesFilled+1,routine)
-    if done==0 :
-        return done
+    done1 = function(teacherI+1,courseI,coursesFilled+1,routine)
+    done2 = function(teacherI,courseI+1,coursesFilled+1,routine)
+
+    if (done1 or done2)==1 :
+
+        return 1
+    return 0
     """
     print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+" "
           +str(time1i)+" - "+str(time1)+" "
           +str(time2i)+" - "+str(time2)+" "+str(teacherI)+" "+str(courseI)+" "+str(coursesFilled))
     """
-    return done
+    #return done
 function(0,0,0,"")
+"""
+print(str(courseChoice[1]))
+print(str(courseChoice[0]))
+print(str(TeacherClass[0]))
+print(str(TeacherClass[1]))
+print(str(CourseClass[0]))
+print(str(CourseClass[1]))
+print(str(CourseClass[2]))
+print(str(CourseClass[3]))
+"""
 time1i = 0
 #print(str(TeacherClass[1].teacherTime))
-print(dayHashDictionary[str(time1i)])
+#print(dayHashDictionary[str(time1i)])
