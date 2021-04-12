@@ -56,7 +56,7 @@ for i in range(total_teachers):
     #print(getTeacherName(teachers,i))
     #print(getCourseChoiceFor(teachers,i))
     TeacherClass.append(Teacher(getTeacherName(teachers,i),courseChoice[i],teacherTime[i]))
-    print(" for "+getTeacherName(teachers,i))
+
     TeacherClass[i].calculateTimeHash()
     #TeacherClass[i].calculateTimeHash()
     #print(TeacherClass[i].name+" "+str(TeacherClass[i].courseChoice)+" "+str(TeacherClass[i].teacherTime))
@@ -91,13 +91,15 @@ def function(teacherI,courseI):
    #print(CourseClass[courseI].duration)
    """
 batch24 = batch("24")
-def function(teacherI,courseI,coursesFilled):
+def function(teacherI,courseI,coursesFilled,routine):
 
     time1 = 0
     time2 = 0
     time1i = 0
     time2i = 0
+    doneFlag=0
     if coursesFilled==total_courses:
+        print(routine)
         return 1
     course = TeacherClass[teacherI].courseChoice[courseI]
     courseNo = -1
@@ -111,26 +113,51 @@ def function(teacherI,courseI,coursesFilled):
         print("impossible for "+course)
         return 0
     for i in range(5):
-        print(len(TeacherClass[teacherI].timeHash[i]))
+        #print(len(TeacherClass[teacherI].timeHash[i]))
+        if doneFlag==1:
+            break
         if len(TeacherClass[teacherI].timeHash[i])>1:
             time1 = TeacherClass[teacherI].timeHash[i][0]
+            TeacherClass[teacherI].timeHash[i].remove(time1)
             time1i = i
-            if len(TeacherClass[teacherI].timeHash[i+2])>1:
-                time2 = TeacherClass[teacherI].timeHash[i][0]
-                time1i = i+2
-
-                if time1 in batch24.availableSlots[i]:
-                    batch24.availableSlots[i].remove(time1)
-                    if time2 in batch24.availableSlots[i+2]:
-                        batch24.availableSlots[i+2].remove(time2)
-
+            print(time1i)
+            #print(str(TeacherClass[teacherI].name+str(time1i)+" -time 1  "+str(time1)))
+            if time1 in batch24.availableSlots[i]:
+                batch24.availableSlots[i].remove(time1)
+            else:
+                continue
+            for j in range(i+1,5):
+                if len(TeacherClass[teacherI].timeHash[j])>1:
+                    time2 = TeacherClass[teacherI].timeHash[j][0]
+                    TeacherClass[teacherI].timeHash[j].remove(time2)
+                    time2i = j
+                    #print(str(TeacherClass[teacherI].name+str(time2i)+" -time 2  "+str(time2)))
+                    print()
+                    if time2 in batch24.availableSlots[j]:
+                        batch24.availableSlots[j].remove(time2)
+                        doneFlag=1
+                        #print(str(batch24.availableSlots[j]))
                         break
+                    else:
+                        continue
+    if doneFlag==0:
+        return 0
+    print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name+str(time1i)+" - "+str(time1)+" "
+                                                  +str(time2i)+" - "+str(time2)+" "))
 
-    function(teacherI+1,courseI,coursesFilled+1)
+
+    routine = routine+str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+"\n"+dayHashDictionary[str(time1i)]
+    routine = routine+" "+timeHashDictionary[str(time1)]+"\n"+dayHashDictionary[str(time2i)]+" "+timeHashDictionary[str(time2)]+"\n\n"
+    done = function(teacherI+1,courseI,coursesFilled+1,routine)
+    if done==0 :
+        return done
+    """
     print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+" "
-          +str(time1i)+" - "+str(time2i)+" "
-          +str(time1)+" - "+str(time2)+" "+str(teacherI)+" "+str(courseI)+" "+str(coursesFilled))
-
-function(0,0,0)
-
-print(str(TeacherClass[1].teacherTime))
+          +str(time1i)+" - "+str(time1)+" "
+          +str(time2i)+" - "+str(time2)+" "+str(teacherI)+" "+str(courseI)+" "+str(coursesFilled))
+    """
+    return done
+function(0,0,0,"")
+time1i = 0
+#print(str(TeacherClass[1].teacherTime))
+print(dayHashDictionary[str(time1i)])

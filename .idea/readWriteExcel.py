@@ -1,5 +1,34 @@
 import pandas as pd
 
+timeHashDictionary={}
+"""
+    slots   meaning
+     1       8:30  (can be used as lab )
+     2       10:00 (can be used as lab )
+     3       11:30
+     4       13:00
+     5       14:00  (can be used as lab )
+     6       15:30
+     7       17:00
+     
+     
+     
+    """
+timeHashDictionary["1"] = "8:30"
+timeHashDictionary["2"] = "10:00"
+timeHashDictionary["3"] = "11:30"
+timeHashDictionary["4"] = "13:00"
+timeHashDictionary["5"] = "14:00"
+timeHashDictionary["6"] = "15:30"
+timeHashDictionary["7"] = "17:00"
+
+dayHashDictionary={}
+dayHashDictionary['0'] = "Sunday"
+dayHashDictionary["1"] = "Monday"
+dayHashDictionary["2"] = "Tuesday"
+dayHashDictionary["3"] = "WednesDay"
+dayHashDictionary["4"] = "ThursDay"
+
 #testing function
 def test():
     print("stfu")
