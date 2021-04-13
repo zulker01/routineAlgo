@@ -38,8 +38,7 @@ total_teachers = totalRowNum(teachers)
 courseChoice = []
 #print(total_teachers)
 i = 0
-#print(teachers)
-#print(teachers[5][0])
+
 
 #open teacher free time
 teachersFreeTime = pd.read_excel("Routine.xlsx",sheet_name='TeacherFreeSlot')
@@ -98,7 +97,7 @@ def function(teacherI,courseI,coursesFilled,routine):
     time1i = 0
     time2i = 0
     doneFlag=0
-    print("in stack teacherI "+str(teacherI)+" courseI "+str(courseI)+" coursesFilled "+str(coursesFilled)+" routine ")
+    #print("in stack teacherI "+str(teacherI)+" courseI "+str(courseI)+" coursesFilled "+str(coursesFilled)+" routine ")
     if coursesFilled==total_courses:
         print("Successful routine")
         print(routine)
@@ -149,8 +148,7 @@ def function(teacherI,courseI,coursesFilled,routine):
             time1 = TeacherClass[teacherI].timeHash[i][0]
             TeacherClass[teacherI].timeHash[i].remove(time1)
             time1i = i
-            #print(time1i)
-            #print(str(TeacherClass[teacherI].name+str(time1i)+" -time 1  "+str(time1)))
+
             if time1 in batch24.availableSlots[i]:
                 batch24.availableSlots[i].remove(time1)
             else:
@@ -175,8 +173,8 @@ def function(teacherI,courseI,coursesFilled,routine):
                         continue
     if doneFlag==0:
         return 0
-    print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name+str(time1i)+" - "+str(time1)+" "
-                                                  +str(time2i)+" - "+str(time2)+" "))
+    #print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name+str(time1i)+" - "+str(time1)+" "
+                                                  #+str(time2i)+" - "+str(time2)+" "))
 
 
     routine = routine+str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+"\n"+dayHashDictionary[str(time1i)]
@@ -207,32 +205,15 @@ def function(teacherI,courseI,coursesFilled,routine):
             CourseClass[courseNo].flag = 0
             #print("flag reset "+course)
     if time1!=0:
-        print("reset Time for "+TeacherClass[teacherI].name)
+        #print("reset Time for "+TeacherClass[teacherI].name)
         TeacherClass[teacherI].timeHash[time1].append(time1i)
     if time2!=0:
-        print("reset Time for "+TeacherClass[teacherI].name)
+        #print("reset Time for "+TeacherClass[teacherI].name)
         TeacherClass[teacherI].timeHash[time2].append(time2i)
     if (done1 or done2)==1 :
 
         return 1
     return 0
-    """
-    print(str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+" "
-          +str(time1i)+" - "+str(time1)+" "
-          +str(time2i)+" - "+str(time2)+" "+str(teacherI)+" "+str(courseI)+" "+str(coursesFilled))
-    """
+
     #return done
 function(0,0,0,"")
-"""
-print(str(courseChoice[1]))
-print(str(courseChoice[0]))
-print(str(TeacherClass[0]))
-print(str(TeacherClass[1]))
-print(str(CourseClass[0]))
-print(str(CourseClass[1]))
-print(str(CourseClass[2]))
-print(str(CourseClass[3]))
-"""
-time1i = 0
-#print(str(TeacherClass[1].teacherTime))
-#print(dayHashDictionary[str(time1i)])
