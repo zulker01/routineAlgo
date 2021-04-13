@@ -51,7 +51,7 @@ for i in range (total_teachers):
 TeacherClass = []
 for i in range(total_teachers):
     courseChoice.append(getCourseChoiceFor(teachers,i))
-    print(courseChoice[i])
+    #print(courseChoice[i])
     #print(getTeacherName(teachers,i))
     #print(getCourseChoiceFor(teachers,i))
     TeacherClass.append(Teacher(getTeacherName(teachers,i),courseChoice[i],teacherTime[i]))
