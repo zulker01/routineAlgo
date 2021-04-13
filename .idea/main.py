@@ -45,14 +45,14 @@ i = 0
 teachersFreeTime = pd.read_excel("Routine.xlsx",sheet_name='TeacherFreeSlot')
 #print(teachersFreeTime)
 
-for i in range (0,2):
+for i in range (total_teachers):
     teacherTime.append(getTeacherTime(teachersFreeTime,i))
     #print(teacherTime[i])
 
 TeacherClass = []
 for i in range(total_teachers):
     courseChoice.append(getCourseChoiceFor(teachers,i))
-    #print(courseChoice[i])
+    print(courseChoice[i])
     #print(getTeacherName(teachers,i))
     #print(getCourseChoiceFor(teachers,i))
     TeacherClass.append(Teacher(getTeacherName(teachers,i),courseChoice[i],teacherTime[i]))
@@ -108,7 +108,7 @@ def function(teacherI,courseI,coursesFilled,routine):
     if len(TeacherClass[teacherI].courseChoice)<=courseI:
         return 0
     course = TeacherClass[teacherI].courseChoice[courseI]
-    print(course)
+    #print(course)
     courseNo = -1
     for i in range(total_courses):
         if CourseClass[i].name == course:
@@ -117,8 +117,30 @@ def function(teacherI,courseI,coursesFilled,routine):
     if CourseClass[courseNo].flag == 0:
         CourseClass[courseNo].flag = 1
     else:
-        print("impossible for "+course)
+        #print("impossible for "+course)
         return 0
+    """
+    if CourseClass[courseNo].credit == 1.5:
+        for i in range(5):
+            #print(len(TeacherClass[teacherI].timeHash[i]))
+            if doneFlag==1:
+                break
+            if len(TeacherClass[teacherI].timeHash[i])>2:
+                time1 = TeacherClass[teacherI].timeHash[i][0]
+                TeacherClass[teacherI].timeHash[i].remove(time1)
+                time1i = i
+                #print(time1i)
+                #print(str(TeacherClass[teacherI].name+str(time1i)+" -time 1  "+str(time1)))
+                if time1 in batch24.availableSlots[i]:
+                    batch24.availableSlots[i].remove(time1)
+                    doneFlag==1
+                    break
+                else:
+                    time1=0
+                    time1i=0
+                    continue
+    else:
+    """
     for i in range(5):
         #print(len(TeacherClass[teacherI].timeHash[i]))
         if doneFlag==1:
@@ -132,6 +154,8 @@ def function(teacherI,courseI,coursesFilled,routine):
             if time1 in batch24.availableSlots[i]:
                 batch24.availableSlots[i].remove(time1)
             else:
+                time1=0
+                time1i=0
                 continue
             for j in range(i+1,5):
                 if len(TeacherClass[teacherI].timeHash[j])>1:
@@ -146,6 +170,8 @@ def function(teacherI,courseI,coursesFilled,routine):
                         #print(str(batch24.availableSlots[j]))
                         break
                     else:
+                        time2=0
+                        time2i =0
                         continue
     if doneFlag==0:
         return 0
@@ -155,9 +181,37 @@ def function(teacherI,courseI,coursesFilled,routine):
 
     routine = routine+str(CourseClass[courseNo].name)+" "+str(TeacherClass[teacherI].name)+"\n"+dayHashDictionary[str(time1i)]
     routine = routine+" "+timeHashDictionary[str(time1)]+"\n"+dayHashDictionary[str(time2i)]+" "+timeHashDictionary[str(time2)]+"\n\n"
-    done1 = function(teacherI+1,courseI,coursesFilled+1,routine)
-    done2 = function(teacherI,courseI+1,coursesFilled+1,routine)
+    done1=0
+    done2=0
+    if teacherI+1<total_teachers and len(TeacherClass[teacherI].courseChoice)>courseI:
+        done1 = function(teacherI+1,courseI,coursesFilled+1,routine)
+        course = TeacherClass[teacherI+1].courseChoice[courseI]
 
+        courseNo = -1
+        for i in range(total_courses):
+            if CourseClass[i].name == course:
+                courseNo = i
+                break
+        if CourseClass[courseNo].flag == 1:
+            CourseClass[courseNo].flag = 0
+            #print("flag reset "+course)
+    if teacherI<total_teachers and len(TeacherClass[teacherI].courseChoice)>courseI+1:
+        done2 = function(teacherI,courseI+1,coursesFilled+1,routine)
+        course = TeacherClass[teacherI].courseChoice[courseI+1]
+        courseNo = -1
+        for i in range(total_courses):
+            if CourseClass[i].name == course:
+                courseNo = i
+                break
+        if CourseClass[courseNo].flag == 1:
+            CourseClass[courseNo].flag = 0
+            #print("flag reset "+course)
+    if time1!=0:
+        print("reset Time for "+TeacherClass[teacherI].name)
+        TeacherClass[teacherI].timeHash[time1].append(time1i)
+    if time2!=0:
+        print("reset Time for "+TeacherClass[teacherI].name)
+        TeacherClass[teacherI].timeHash[time2].append(time2i)
     if (done1 or done2)==1 :
 
         return 1
